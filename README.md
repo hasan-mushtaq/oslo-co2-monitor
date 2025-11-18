@@ -50,6 +50,53 @@ python3 -m http.server 8000
 - **Chart.js** - Data visualization
 - **Open-Meteo API** - CO2 data source
 
+## Deployment to Cloud Run
+
+### Prerequisites
+- Google Cloud account with billing enabled
+- `gcloud` CLI installed and configured
+
+### Deploy Steps
+
+1. Build and deploy to Cloud Run:
+```bash
+gcloud run deploy oslo-co2-monitor \
+  --source . \
+  --platform managed \
+  --region europe-west1 \
+  --allow-unauthenticated
+```
+
+2. The service will be deployed and you'll receive a URL like:
+```
+https://oslo-co2-monitor-xxxxx-ew.a.run.app
+```
+
+### Manual Docker Build (Optional)
+
+If you want to build the Docker image manually:
+
+```bash
+# Build the image
+docker build -t oslo-co2-monitor .
+
+# Test locally
+docker run -p 8080:8080 oslo-co2-monitor
+
+# Tag for Google Container Registry
+docker tag oslo-co2-monitor gcr.io/YOUR_PROJECT_ID/oslo-co2-monitor
+
+# Push to GCR
+docker push gcr.io/YOUR_PROJECT_ID/oslo-co2-monitor
+
+# Deploy from GCR
+gcloud run deploy oslo-co2-monitor \
+  --image gcr.io/YOUR_PROJECT_ID/oslo-co2-monitor \
+  --platform managed \
+  --region europe-west1 \
+  --allow-unauthenticated
+```
+
 ## License
 
 MIT

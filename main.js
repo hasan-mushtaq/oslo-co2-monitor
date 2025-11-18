@@ -97,8 +97,17 @@ function updateChart(hourlyData) {
                     }
                 },
                 y: {
-                    display: false,
-                    grid: { display: false }
+                    display: true,
+                    grid: { 
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.1)'
+                    },
+                    ticks: {
+                        color: 'rgba(255,255,255,0.5)',
+                        callback: function(value) {
+                            return value + ' ppm';
+                        }
+                    }
                 }
             },
             interaction: {
